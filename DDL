@@ -1,0 +1,219 @@
+create database insurance;
+use insurance;
+
+### #Customer 테이블
+
+CREATE TABLE Customer (
+    customerID INT PRIMARY KEY AUTO_INCREMENT,
+    address VARCHAR(255),
+    age INT,
+    sex VARCHAR(255),
+    job VARCHAR(255),
+    name VARCHAR(255),
+    phoneNumber VARCHAR(255),
+    registrationNumber VARCHAR(255),
+    incomeLevel INT,
+    accountNumber VARCHAR(255),
+    accountPassword VARCHAR(255)
+);
+
+### #CustomerManagement 테이블(로그인)
+
+CREATE TABLE CustomerManagement (
+    customerManagementID INT PRIMARY KEY AUTO_INCREMENT,
+    ID VARCHAR(255),
+    PW VARCHAR(255),
+		customerID INT
+);
+ALTER TABLE CustomerManagement ADD FOREIGN KEY (customerID) REFERENCES Customer(customerID) ON UPDATE CASCADE;
+
+### #Insurance 테이블
+
+CREATE TABLE Insurance (
+    insuranceID INT PRIMARY KEY AUTO_INCREMENT,
+    insuranceName VARCHAR(255),
+    planReport VARCHAR(255),
+    insuranceState VARCHAR(255),
+    insuranceType VARCHAR(255),
+    salesTarget VARCHAR(255),
+    canRegistTarget VARCHAR(255),
+    payment INT,
+    guarantee VARCHAR(255),
+    estimatedDevelopment INT,
+    estimatedProfitRate FLOAT,
+    riskDegree INT,
+    salesStartDate DATE,
+    salesEndDate DATE,
+    goalPeopleNumber INT,
+    salesMethod VARCHAR(255),
+    rate FLOAT,
+    duration INT,
+    resultAnalysis INT,
+    rewardAmount INT,
+    salesPerformance INT
+);
+
+### #Contract 테이블
+
+CREATE TABLE Contract (
+contractID INT PRIMARY KEY AUTO_INCREMENT,
+contractDate DATE,
+contractFile VARCHAR(255),
+contractState VARCHAR(255),
+contractRunState VARCHAR(255),
+contractUWState VARCHAR(255),
+specialization VARCHAR(255),
+customerID INT,
+insuranceID INT
+);
+ALTER TABLE Contract ADD FOREIGN KEY (customerID) REFERENCES Customer(customerID) ON UPDATE CASCADE;
+ALTER TABLE Contract ADD FOREIGN KEY (insuranceID) REFERENCES Insurance(insuranceID) ON UPDATE CASCADE;
+
+### #Payment 테이블
+
+CREATE TABLE Payment (
+paymentID INT PRIMARY KEY AUTO_INCREMENT,
+duration INT,
+contractDuration INT,
+expireDate DATE,
+content VARCHAR(255),
+amount INT,
+accidentCount INT,
+payway VARCHAR(255),
+contractID INT
+);
+ALTER TABLE Payment ADD FOREIGN KEY (contractID) REFERENCES Contract(contractID) ON UPDATE CASCADE;
+
+### #AdviceNote 테이블
+
+CREATE TABLE AdviceNote (
+    adviceNoteID INT PRIMARY KEY AUTO_INCREMENT,
+    content VARCHAR(255),
+    result VARCHAR(255),
+    contractID INT,
+		customerID INT
+);
+ALTER TABLE AdviceNote ADD FOREIGN KEY (customerID) REFERENCES Customer(customerID) ON UPDATE CASCADE;
+ALTER TABLE AdviceNote ADD FOREIGN KEY (contractID) REFERENCES Contract(contractID) ON UPDATE CASCADE;
+
+### #ContractManagementPolicy 테이블
+
+CREATE TABLE ContractManagementPolicy (
+    policyID INT PRIMARY KEY AUTO_INCREMENT,
+    content VARCHAR(255),
+    name VARCHAR(255)
+);
+
+### #Reward 테이블
+
+CREATE TABLE Reward (
+rewardID INT PRIMARY KEY AUTO_INCREMENT,
+appliResult VARCHAR(255),
+accidentProfile VARCHAR(255),
+appliDate DATE,
+content VARCHAR(255),
+customerName VARCHAR(255),
+identifyProfile VARCHAR(255),
+reward INT,
+contractID INT
+);
+ALTER TABLE Reward ADD FOREIGN KEY (contractID) REFERENCES Contract(contractID) ON UPDATE CASCADE;
+
+### #SellGroup 테이블
+
+CREATE TABLE SellGroup (
+    sellGroupID INT PRIMARY KEY AUTO_INCREMENT,
+    exResult VARCHAR(255),
+    name VARCHAR(255),
+    representative VARCHAR(255),
+    representativePhoneNumber VARCHAR(255)
+);
+
+### #OperationPolicy테이블
+
+CREATE TABLE OperationPolicy (
+policyID INT PRIMARY KEY AUTO_INCREMENT,
+name VARCHAR(255),
+content VARCHAR(255),
+rating INT,
+pass INT
+);
+
+### #AssumePolicy테이블
+
+CREATE TABLE AssumePolicy (
+    policyID INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255),
+    content VARCHAR(255),
+    policyType VARCHAR(255)
+);
+
+### #Education테이블
+
+CREATE TABLE Education (
+    educationID INT PRIMARY KEY AUTO_INCREMENT,
+    budget INT,
+    content VARCHAR(255),
+    duration INT,
+    exResult VARCHAR(255),
+    name VARCHAR(255),
+    place VARCHAR(255),
+    teacherName VARCHAR(255),
+    teacherPhoneNumber VARCHAR(255)
+);
+
+### #EducationStudent테이블
+
+CREATE TABLE EducationStudent (
+    studentID INT PRIMARY KEY AUTO_INCREMENT,
+    age INT,
+    gender VARCHAR(255),
+    name VARCHAR(255),
+    phone VARCHAR(255),
+    examination VARCHAR(255),
+    studentScore INT,
+		educationID INT
+);
+ALTER TABLE EducationStudent ADD FOREIGN KEY (educationID) REFERENCES Education(educationID) ON UPDATE CASCADE;
+
+### #CampaignProgram
+
+CREATE TABLE CampaignProgram (
+campaignID INT PRIMARY KEY AUTO_INCREMENT,
+budget INT,
+campaignName VARCHAR(255),
+campaignTarget VARCHAR(255),
+duration INT,
+exResult FLOAT,
+insuranceID INT,
+place VARCHAR(255),
+campaignWay VARCHAR(255),
+endResult FLOAT,
+report VARCHAR(255),
+state VARCHAR(255),
+outTeam VARCHAR(255)
+);
+ALTER TABLE CampaignProgram ADD FOREIGN KEY (insuranceID) REFERENCES Insurance(insuranceID) ON DELETE CASCADE;
+
+### #CustomerCounseling
+
+CREATE TABLE CustomerCounseling (
+counselingID INT PRIMARY KEY AUTO_INCREMENT,
+customerID INT,
+counselingPlace VARCHAR(255),
+counselingTime DATETIME,
+counselingState VARCHAR(255)
+);
+ALTER TABLE CustomerCounseling ADD FOREIGN KEY (customerID) REFERENCES Customer(customerID) ON UPDATE CASCADE;
+
+### #UserPersona
+
+CREATE TABLE UserPersona (
+userPersonaID INT PRIMARY KEY AUTO_INCREMENT,
+insuranceID INT,
+sex VARCHAR(255),
+age INT,
+job VARCHAR(255),
+incomeLevel INT
+);
+ALTER TABLE UserPersona ADD FOREIGN KEY (insuranceID) REFERENCES Insurance(insuranceID) ON UPDATE CASCADE;
