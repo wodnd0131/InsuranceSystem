@@ -3,6 +3,7 @@
 보험사 프로그램 (강의 내용에 따라 TUI로만 구현 )
 
 사용 언어 : JAVA
+
 DB : MY SQL
 
 설계 단계에서 Enterpise Architect 사용함
